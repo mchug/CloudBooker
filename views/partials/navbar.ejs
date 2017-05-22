@@ -1,0 +1,23 @@
+<%
+    let isActive = (page) => {
+        return head.page === page ? 'class="active"' : '';
+    }
+%>
+
+<div class="row">
+    <div class="col-md-12 my-navbar">
+        <ul class="nav nav-tabs">
+            <% if (head.logined) { %>
+                <li <%- isActive('account') %>><a href="/account">Приватний кабінет</a></li>
+                <li <%- isActive('history') %>><a href="/history">Історія</a></li>
+                <li <%- isActive('reports') %>><a href="/reports">Звіти</a></li>
+                <li <%- isActive('settings') %>><a href="/settings">Налаштування</a></li>
+                <li class="tab-right"><a href="/logout">Вийти</a></li>
+            <% } else { %>
+                <li <%- isActive('landing') %>><a href="/">Головна</a></li>
+                <li><a href="/account">Приватний кабінет</a></li>                        
+            <% } %>
+                <li class="tab-right"><a href="/api">API</a></li>
+        </ul>
+    </div>
+</div>

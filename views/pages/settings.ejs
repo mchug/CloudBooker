@@ -1,0 +1,89 @@
+<% include ../partials/head %>
+
+<div class="row">
+    <div class="col-md-12">
+        <h2>Налаштування <button class="btn btn-primary pull-right" id="save-settings-btn"><span class="glyphicon glyphicon-floppy-saved"></span> Зберегти</button></h2>
+        <div class="row">
+            <div class="col-md-3">
+              <h4>Основні налаштування</h4>
+              <div class="form-group">
+                <label>Повне ім'я:</label>
+                <input id="fullName" type="text" class="form-control" value="<%=userInfo.fullName%>"/>
+              </div>
+              <div class="form-group">
+                <label>Валюта гаманця:</label>
+                <select id="currency" class="form-control">
+                  <% for (var currency of currencyList) { %>
+                    <option <%=userInfo.currency == currency.code ? 'selected' : ''%> value="<%=currency.code%>"><%=currency.name%> (<%=currency.literal%>)</option>
+                  <% } %>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Баланс:</label>
+                <input id="balance" type="number" class="form-control" value="<%=userInfo.balance%>">
+              </div>
+              <div class="form-group">
+                <label>Кількість записів у кабінеті:</label>
+                <input id="itemsAccount" type="number" class="form-control" min="1" max="50" value="<%=userInfo.itemsAccount%>">
+              </div>
+              <div class="form-group">
+                <label>Довжина сторінки історії:</label>
+                <input id="itemsHistory" type="number" class="form-control" min="1" max="50" value="<%=userInfo.itemsHistory%>">
+              </div>
+            </div>
+            <div class="col-md-3">
+              <h4>Зовнішній вигляд</h4>
+              <div class="form-group">
+                <label>Основний колір:</label>
+                <input id="colorMain" type="color" class="form-control" value="<%=userInfo.colorMain%>"/>
+              </div>
+              <div class="form-group">
+                <label>Колір обрамлення:</label>
+                <input id="colorBorder" type="color" class="form-control" value="<%=userInfo.colorBorder%>"/>
+              </div>
+              <div class="form-group">
+                <label>Колір тексту:</label>
+                <input id="colorText" type="color" class="form-control" value="<%=userInfo.colorText%>"/>
+              </div>
+              <div class="form-group">
+                <label>Додатковий колір:</label>
+                <input id="colorExtra" type="color" class="form-control" value="<%=userInfo.colorExtra%>"/>
+              </div>
+              <div class="form-group">
+                <button class="form-control btn btn-primary" id="restore-colors-btn">Відновити кольори</button>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <h4>Змінити пароль</h4>
+              <div class="form-group">
+                <label>Старий пароль:</label>
+                <input id="old-pass" type="password" class="form-control"/>
+              </div>
+              <div class="form-group">
+                <label>Новий пароль:</label>
+                <input id="new-pass" type="password" class="form-control"/>
+              </div>
+              <div class="form-group">
+                <label>Новий пароль повторно:</label>
+                <input id="new-pass-again" type="password" class="form-control"/>
+              </div>
+              <div class="form-group">
+                <button class="form-control btn btn-primary" id="btnChangePass">Змінити пароль</button>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <h4>Додаткова безпека</h4>
+              <div class="form-group">
+                <label>Вийти з усіх пристроїв</label>
+                <button class="form-control btn btn-default" id="btnRenewToken"><span class="glyphicon glyphicon-refresh"></span> Оновити сесію</button>
+              </div>
+              <div class="form-group">
+                <label>Ключ відновлення пароля</label>
+                <button class="form-control btn btn-default" id="btnRenewSecret"><span class="glyphicon glyphicon-lock"></span> Оновити секрет</button>
+              </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<% include ../partials/footer %>

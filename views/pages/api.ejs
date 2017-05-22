@@ -1,0 +1,366 @@
+<% include ../partials/head %>
+
+<div class="row">
+    <div class="col-md-7">
+        <h1>Документація для розробників</h1>
+        <p>Cloud Booker пропонує розробникам 19 зручних методів свого REST API.
+        <br>Ці методи дозволяють отримати усю необхідну інформацію для створення повноцінного кліента.</p>
+        <br>
+        <h4>Особливості роботи нашого API: </h4>
+        <ul>
+          <li><p>Ми використовуемо <i>token-based</i> аутентифікацію, жодних сессій, жодних паролів.</p></li>
+          <li><p>Тип відповіді завжди <i>JSON</i>.</p></li>
+          <li><p>Якщо у відповіді є поле <i>success</i>, то запит завершився успішно.</p></li>
+          <li><p>Інакше будуть присутні поля <i>error</i> та <i>errorInfo</i>.</p></li>
+          <li><p>Помилки <i>invalid-argument</i> та <i>internal-error</i> можуть бути викликані будь-яким методом.</p></li>
+        </ul>
+        <br>
+    </div>
+    <div class="col-md-5">
+      <img src="./images/rest-api.jpg"></img>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="api-block">
+          <h2><b>Авторизація</b></h2>
+			     <div class="api-method">
+            <h3><b>POST: /api/login</b> - авторизація користувача</h3>
+            <div class="row">
+              <div class="col-md-4">
+                <h4>Запит: </h4>
+                <pre><code>{<br> login: string,<br> password: string<br>}</code></pre>
+              </div>
+              <div class="col-md-4">
+                <h4>Відповідь: </h4>
+                <pre><code>{<br> success: true,<br> result: token<br>}</code></pre>
+              </div>
+              <div class="col-md-4">
+                <h4>Помилка: </h4>
+                <pre><code>{<br> error: true,<br> errorInfo: [user-not-found, wrong-password]<br>}</code></pre>
+              </div>
+            </div>
+          </div>
+          <div class="api-method">
+            <h3><b>POST: /api/register</b> - регістрація нового користувача</h3>
+            <div class="row">
+              <div class="col-md-4">
+                <h4>Запит: </h4>
+                <pre><code>{<br> login: string,<br> password: string,<br> companyName: string<br>}</code></pre>
+              </div>
+              <div class="col-md-4">
+                <h4>Відповідь: </h4>
+                <pre><code>{<br> success: true,<br> result: [secret]<br>}</code></pre>
+              </div>
+              <div class="col-md-4">
+                <h4>Помилка: </h4>
+                <pre><code>{<br> error: true,<br> errorInfo: [user-exists]<br>}</code></pre>
+              </div>
+            </div>
+          </div>
+          <div class="api-method">
+            <h3><b>POST: /api/restore</b> - відновлення доступу при втраті паролю</h3>
+            <div class="row">
+              <div class="col-md-4">
+                <h4>Запит: </h4>
+                <pre><code>{<br> login: string,<br> newPassword: string,<br> secret: [number]<br>}</code></pre>
+              </div>
+              <div class="col-md-4">
+                <h4>Відповідь: </h4>
+                <pre><code>{<br> success: true,<br> result: { token, secret }<br>}</code></pre>
+              </div>
+              <div class="col-md-4">
+                <h4>Помилка: </h4>
+                <pre><code>{<br> error: true,<br> errorInfo: [user-not-found, invalid-secret]<br>}</code></pre>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="api-block">
+          <h2><b>Налаштування користувача</b></h2>
+			     <div class="api-method">
+            <h3><b>GET: /api/:token/userInfo</b> - дізнатися інформацію про користувача</h3>
+            <div class="row">
+              <div class="col-md-4">
+                <h4>Запит: </h4>
+                <pre><code>Has no query params</code></pre>
+              </div>
+              <div class="col-md-4">
+                <h4>Відповідь: </h4>
+                <pre><code>{<br> success: true,<br> result: {<br>    owner: string,<br>    companyName: string,<br>    currency: number,<br>    balance: number,<br>    itemsAccount: number,<br>    itemsHistory: number,<br>    colorMain: string,<br>    colorBorder: string,<br>    colorText: string,<br>    colorExtra: string,<br>    lastTransId: number,<br>    lastReportId: number<br>  }<br>}</code></pre>
+              </div>
+              <div class="col-md-4">
+                <h4>Помилка: </h4>
+                <pre><code>{<br> error: true,<br> errorInfo: [invalid-token]<br>}</code></pre>
+              </div>
+            </div>
+          </div>
+          <div class="api-method">
+            <h3><b>POST: /api/:token/userInfo</b> - змінити інформацію про користувача</h3>
+            <div class="row">
+              <div class="col-md-4">
+                <h4>Запит: </h4>
+                <pre><code>{<br> userInfoFields: { fieldsToUpdate }<br>}</code></pre>
+              </div>
+              <div class="col-md-4">
+                <h4>Відповідь: </h4>
+                <pre><code>{<br> success: true,<br> result: { oldUserInfo }<br>}</code></pre>
+              </div>
+              <div class="col-md-4">
+                <h4>Помилка: </h4>
+                <pre><code>{<br> error: true,<br> errorInfo: [invalid-token]<br>}</code></pre>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="api-block">
+          <h2><b>Транзакції</b></h2>
+			     <div class="api-method">
+            <h3><b>GET: /api/:token/transactions/all</b> - останні транзакції користувача</h3>
+            <div class="row">
+              <div class="col-md-4">
+                <h4>Запит: </h4>
+                <pre><code>limit=number - ліміт<br>skip=number - зміщення</code></pre>
+              </div>
+              <div class="col-md-4">
+                <h4>Відповідь: </h4>
+                <pre><code>{<br> success: true,<br> result: [transactions]<br>}</code></pre>
+              </div>
+              <div class="col-md-4">
+                <h4>Помилка: </h4>
+                <pre><code>{<br> error: true,<br> errorInfo: [invalid-token]<br>}</code></pre>
+              </div>
+            </div>
+          </div>
+          <div class="api-method">
+            <h3><b>GET: /api/:token/transactions/count</b> - кількість транзакцій користувача</h3>
+            <div class="row">
+              <div class="col-md-4">
+                <h4>Запит: </h4>
+                <pre><code>Has no query params</code></pre>
+              </div>
+              <div class="col-md-4">
+                <h4>Відповідь: </h4>
+                <pre><code>{<br> success: true,<br> result: transactions-count<br>}</code></pre>
+              </div>
+              <div class="col-md-4">
+                <h4>Помилка: </h4>
+                <pre><code>{<br> error: true,<br> errorInfo: [invalid-token]<br>}</code></pre>
+              </div>
+            </div>
+          </div>
+          <div class="api-method">
+            <h3><b>GET: /api/:token/transaction/:id</b> - конкретна транзакція користувача</h3>
+            <div class="row">
+              <div class="col-md-4">
+                <h4>Запит: </h4>
+                <pre><code>Has no query params</code></pre>
+              </div>
+              <div class="col-md-4">
+                <h4>Відповідь: </h4>
+                <pre><code>{<br> success: true,<br> result: {<br>    owner: string,<br>    id: number,<br>    amount: number,<br>    currency: number,<br>    date: date,<br>    balance: string, /* number + currency */<br>    description: string<br>  }<br>}</code></pre>
+              </div>
+              <div class="col-md-4">
+                <h4>Помилка: </h4>
+                <pre><code>{<br> error: true,<br> errorInfo: [invalid-token]<br>}</code></pre>
+              </div>
+            </div>
+          </div>
+          <div class="api-method">
+            <h3><b>PUT: /api/:token/transaction</b> - додати нову транзакцію</h3>
+            <div class="row">
+              <div class="col-md-4">
+                <h4>Запит: </h4>
+                <pre><code>{<br>  amount: number,<br>  currency: number,<br>  convert: number, /* booker won't do this */<br>  date: date,<br>  description: string<br>}</code></pre>
+              </div>
+              <div class="col-md-4">
+                <h4>Відповідь: </h4>
+                <pre><code>{<br> success: true,<br> result: { newTransaction }<br>}</code></pre>
+              </div>
+              <div class="col-md-4">
+                <h4>Помилка: </h4>
+                <pre><code>{<br> error: true,<br> errorInfo: [invalid-token]<br>}</code></pre>
+              </div>
+            </div>
+          </div>
+          <div class="api-method">
+            <h3><b>DELETE: /api/:token/transaction/:id</b> - видалити конкретну транзакцію</h3>
+            <div class="row">
+              <div class="col-md-4">
+                <h4>Запит: </h4>
+                <pre><code>Has no query params</code></pre>
+              </div>
+              <div class="col-md-4">
+                <h4>Відповідь: </h4>
+                <pre><code>{<br> success: true,<br> result: { deletedTransaction }<br>}</code></pre>
+              </div>
+              <div class="col-md-4">
+                <h4>Помилка: </h4>
+                <pre><code>{<br> error: true,<br> errorInfo: [invalid-token]<br>}</code></pre>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="api-block">
+          <h2><b>Звіти</b></h2>
+			     <div class="api-method">
+            <h3><b>GET: /api/:token/reports/all</b> - останні звіти користувача</h3>
+            <div class="row">
+              <div class="col-md-4">
+                <h4>Запит: </h4>
+                <pre><code>limit=number - ліміт<br>skip=number - зміщення</code></pre>
+              </div>
+              <div class="col-md-4">
+                <h4>Відповідь: </h4>
+                <pre><code>{<br> success: true,<br> result: [reports]<br>}</code></pre>
+              </div>
+              <div class="col-md-4">
+                <h4>Помилка: </h4>
+                <pre><code>{<br> error: true,<br> errorInfo: [invalid-token]<br>}</code></pre>
+              </div>
+            </div>
+          </div>
+          <div class="api-method">
+            <h3><b>GET: /api/:token/reports/count</b> - кількість звітів користувача</h3>
+            <div class="row">
+              <div class="col-md-4">
+                <h4>Запит: </h4>
+                <pre><code>Has no query params</code></pre>
+              </div>
+              <div class="col-md-4">
+                <h4>Відповідь: </h4>
+                <pre><code>{<br> success: true,<br> result: reports-count<br>}</code></pre>
+              </div>
+              <div class="col-md-4">
+                <h4>Помилка: </h4>
+                <pre><code>{<br> error: true,<br> errorInfo: [invalid-token]<br>}</code></pre>
+              </div>
+            </div>
+          </div>
+          <div class="api-method">
+            <h3><b>GET: /api/:token/report/:id</b> - конкретний звіт користувача</h3>
+            <div class="row">
+              <div class="col-md-4">
+                <h4>Запит: </h4>
+                <pre><code>Has no query params</code></pre>
+              </div>
+              <div class="col-md-4">
+                <h4>Відповідь: </h4>
+                <pre><code>{<br> success: true,<br> result: {<br>    owner: string,<br>    id: number,<br>    title: string,<br>    date: date,<br>    transactions: [number], /* ids */<br>  }<br>}</code></pre>
+              </div>
+              <div class="col-md-4">
+                <h4>Помилка: </h4>
+                <pre><code>{<br> error: true,<br> errorInfo: [invalid-token]<br>}</code></pre>
+              </div>
+            </div>
+          </div>
+          <div class="api-method">
+            <h3><b>PUT: /api/:token/report</b> - додати новий звіт</h3>
+            <div class="row">
+              <div class="col-md-4">
+                <h4>Запит: </h4>
+                <pre><code>{<br>  title: string,<br>  date: date,<br>  transactions: [number]<br>}</code></pre>
+              </div>
+              <div class="col-md-4">
+                <h4>Відповідь: </h4>
+                <pre><code>{<br> success: true,<br> result: { newReport }<br>}</code></pre>
+              </div>
+              <div class="col-md-4">
+                <h4>Помилка: </h4>
+                <pre><code>{<br> error: true,<br> errorInfo: [invalid-token]<br>}</code></pre>
+              </div>
+            </div>
+          </div>
+          <div class="api-method">
+            <h3><b>DELETE: /api/:token/report/:id</b> - видалити конкретний звіт</h3>
+            <div class="row">
+              <div class="col-md-4">
+                <h4>Запит: </h4>
+                <pre><code>Has no query params</code></pre>
+              </div>
+              <div class="col-md-4">
+                <h4>Відповідь: </h4>
+                <pre><code>{<br> success: true,<br> result: { deletedReport }<br>}</code></pre>
+              </div>
+              <div class="col-md-4">
+                <h4>Помилка: </h4>
+                <pre><code>{<br> error: true,<br> errorInfo: [invalid-token]<br>}</code></pre>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="api-block">
+          <h2><b>Додаткові методи</b></h2>
+			     <div class="api-method">
+            <h3><b>GET: /api/const/list/currency</b> - список валют</h3>
+            <div class="row">
+              <div class="col-md-4">
+                <h4>Запит: </h4>
+                <pre><code>Has no query params</code></pre>
+              </div>
+              <div class="col-md-4">
+                <h4>Відповідь: </h4>
+                <pre><code>{<br> success: true,<br> result: [currencyList]<br>}</code></pre>
+              </div>
+              <div class="col-md-4">
+                <h4>Помилка: </h4>
+                <pre><code>Only default errors</code></pre>
+              </div>
+            </div>
+          </div>
+          <div class="api-method">
+            <h3><b>GET: /api/const/list/errors</b> - словник помилок</h3>
+            <div class="row">
+              <div class="col-md-4">
+                <h4>Запит: </h4>
+                <pre><code>Has no query params</code></pre>
+              </div>
+              <div class="col-md-4">
+                <h4>Відповідь: </h4>
+                <pre><code>{<br> success: true,<br> result: { errorList }<br>}</code></pre>
+              </div>
+              <div class="col-md-4">
+                <h4>Помилка: </h4>
+                <pre><code>Only default errors</code></pre>
+              </div>
+            </div>
+          </div>
+          <div class="api-method">
+            <h3><b>GET: /api/:token/renew/token</b> - оновити токен користувача</h3>
+            <div class="row">
+              <div class="col-md-4">
+                <h4>Запит: </h4>
+                <pre><code>{<br> login: string,<br> newPassword: string,<br> secret: [number]<br>}</code></pre>
+              </div>
+              <div class="col-md-4">
+                <h4>Відповідь: </h4>
+                <pre><code>{<br> success: true,<br> result: token<br>}</code></pre>
+              </div>
+              <div class="col-md-4">
+                <h4>Помилка: </h4>
+                <pre><code>{<br> error: true,<br> errorInfo: [invalid-token]<br>}</code></pre>
+              </div>
+            </div>
+          </div>
+          <div class="api-method">
+            <h3><b>GET: /api/:token/renew/secret</b> - оновити секрет користувача</h3>
+            <div class="row">
+              <div class="col-md-4">
+                <h4>Запит: </h4>
+                <pre><code>{<br> login: string,<br> newPassword: string,<br> secret: [number]<br>}</code></pre>
+              </div>
+              <div class="col-md-4">
+                <h4>Відповідь: </h4>
+                <pre><code>{<br> success: true,<br> result: secret<br>}</code></pre>
+              </div>
+              <div class="col-md-4">
+                <h4>Помилка: </h4>
+                <pre><code>{<br> error: true,<br> errorInfo: [invalid-token]<br>}</code></pre>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+</div>
+
+<% include ../partials/footer %>

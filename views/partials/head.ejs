@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="ua">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= head.title %></title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="/css/booker.css" />
+    
+    <% if (head.logined) { %>
+        <style>
+            :root {
+                --booker-main-color: <%=userInfo.colorMain%>;
+                --booker-border-color: <%=userInfo.colorBorder%>;
+                --booker-text-color: <%=userInfo.colorText%>;
+                --booker-extra-color: <%=userInfo.colorExtra%>;
+            }
+        </style>
+    <% } %>
+</head>
+<body>            
+    <div class="container-fluid">
+        <div class="container">
+            <% include ../partials/navbar %>

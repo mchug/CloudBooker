@@ -1,0 +1,104 @@
+<% include ../partials/head %>
+
+<%
+  let formatDate = (d) => d.replace(/(\d+-\d+-\d+)T(\d+:\d+:\d+)\.\d+Z/g,'$1 $2');
+
+  let report = {
+    title: 'Мій перший звіт!',
+    userName: 'Оксана Іщук',
+    dateReport: '26/03/17 15:33',
+    dateFirst: '17/03/17 15:18',
+    dateLast: '26/03/17 12:33',
+    avgPeriod: '19.3 годин',
+    minSum: -1900,
+    maxSum: 700,
+    avgSum: 20,
+    total: 10,
+    result: 200,
+    table: []
+  };
+%>
+
+<div class="row reports">
+    <div class="col-md-12">
+      <div class="row">
+        <div class="col-md-12">
+          <h2>
+            Звіти
+            <button class="btn btn-primary" id="print-report-btn"><span class="glyphicon glyphicon-print"></span> Роздрукувати</button>
+            <button class="btn btn-default" id="zoom-report-btn"><span class="glyphicon glyphicon-zoom-in"></span> Маштабувати</button>
+          </h2>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-3 sidebar">
+          <div class="list-group">
+            <% for (let r of reports) { %>
+              <a data-owner="<%=r.owner%>" data-title="<%=r.title%>" data-date="<%=r.date%>" data-transactions="<%=r.transactions%>" class="list-group-item report">
+                <p><b><%=r.title%></b></p>
+                <p class="no-margin"><%=formatDate(r.date)%></p>
+              </a>
+            <% } %>
+          </div>
+        </div>
+        <div class="col-md-9 paperbar">
+            <div id="report-page" class="paper paper-zoom">
+              <div id="plotDiv" style="height: 300px; display: none"></div>
+              <div id="report-body-template" style="display: none">
+                <h2 class="text-center">{r.title}</h2>
+                <div class="row">
+                  <div class="col-md-6">
+                    <h3><b>Компанія:</b><br>{r.owner}</h3>
+                  </div>
+                  <div class="col-md-6">
+                    <h3><b>Дата:</b><br>{r.date}</h3>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-12">
+                    <img id="plotImg"></img>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-6">
+                    <h4><b>Усього транзакій:</b> {r.total}</h4>
+                    <h4><b>Середня сума:</b> {r.avgSum}</h4>
+                    <h4><b>Найбільша:</b> {r.maxSum}</h4>
+                    <h4><b>Найменша:</b> {r.minSum}</h4>
+                  </div>
+                  <div class="col-md-6">
+                    <h4><b>Дата першої:</b> {r.firstDate}</h4>
+                    <h4><b>Дата останьої:</b> {r.lastDate}</h4>
+                    <h4><b>Середнії період:</b> {r.avgPeriod}</h4>
+                    <h4><b>Вплив на баланс:</b> {r.result}</h4>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-12">
+                    <table class="table table-condensed">
+                      <thead>
+                        <tr>
+                          <th>Номер</th>
+                          <th>Сума</th>
+                          <th>Валюта</th>
+                          <th>Дата</th>
+                          <th>Баланс</th>
+                          <th>Опис</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+              <div id="report-body">
+                <h1 class="text-center" style="margin-top: 60%">Виберіть звіт</h1>
+              </div>
+            </div>
+        </div>
+      </div>
+    </div>
+</div>
+
+<% include ../partials/footer %>

@@ -1,0 +1,2 @@
+rm ./data/mongod.lock
+mongod --dbpath=data --nojournal

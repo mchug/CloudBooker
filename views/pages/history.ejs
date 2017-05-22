@@ -1,0 +1,183 @@
+<% include ../partials/head %>
+
+<%
+
+  let formatDate = (d) => d.replace(/(\d+-\d+-\d+)T(\d+:\d+:\d+)\.\d+Z/g,'$1 $2');
+
+  let getLocalDateTime = () => {
+    let dateStr = new Date().toISOString() 
+    dateStr = dateStr.substr(0, dateStr.indexOf('.')).replace('T', ' ');
+    return dateStr;
+  }
+
+  let constructBtn = (type) => {
+    
+    let btnTemplate = '<a class="btn @btnClass" href="@href">@label</a>';
+    let label, isDisabled, pageNum;
+    
+    if (type === "next") {
+        label = "Наступна <span class='glyphicon glyphicon-arrow-right'></span>";
+        isDisabled = pages.current >= pages.total;
+        pageNum = pages.current + 1;
+    } else if (type === "prev") {
+        label = "<span class='glyphicon glyphicon-arrow-left'></span> Попередня";
+        isDisabled = pages.current <= 1;
+        pageNum = pages.current - 1;
+    }
+    
+    let btnClass = isDisabled ? "btn-disabled" : "btn-default";
+    let href = isDisabled ? "#" : '/history?page=' + pageNum + '"';
+    
+    return btnTemplate.replace("@btnClass", btnClass)
+                      .replace("@href", href)
+                      .replace("@label", label);
+  }
+  
+%>
+
+<div class="row">
+    <div class="col-md-12 history">
+        <h2>Історія 
+        <button class="btn btn-primary" data-toggle="modal" data-target="#reportModal"><span class="glyphicon glyphicon-share"></span> Створити звіт</button>
+        <button class="btn btn-default" data-toggle="modal" data-target="#transModal"><span class="glyphicon glyphicon-piggy-bank"></span> Нова транзакція</button>
+        <button class="btn btn-default" data-toggle="modal" data-target="#deleteModal"><span class="glyphicon glyphicon-remove"></span> Видалити</button>
+        </h2>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12 history">
+        <h4>Сторінки: <%=pages.current%> / <%=pages.total%>
+        <span class="history-selected none"><small>Записів виділено: <span id="selected-count">0</span></small></span></h4>
+        <%- constructBtn("next") %>
+        <%- constructBtn("prev") %>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <table class="table table-striped" id="history-table">
+            <thead>
+              <tr>
+                <th><span class="glyphicon glyphicon-check"></span></th>
+                <th>Номер</th>
+                <th>Сума</th>
+                <th>Валюта</th>
+                <th>Дата</th>
+                <th>Баланс</th>
+                <th>Опис</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% if (transactions.length == 0) { %>
+                <tr>
+                  <td colspan="7">
+                    <h1 class="no-transactions">
+                      <small>Транзакції вітсутні</small>
+                    </h1>
+                  </td>
+                </tr>
+              <% } %>
+              <% for(var i=0; i < transactions.length; i++) { %>
+                <% if (transactions[i].amount > 0) { %>
+                  <% transactions[i].amount = "+" + transactions[i].amount %>
+                  <tr class="success">
+                <% } else { %>
+                <tr class="danger">
+                <% } %>
+                  <td><input type="checkbox" class="trans-check" value="<%= transactions[i].id %>"></td>
+                  <td><%= transactions[i].id %></td>
+                  <td><%= transactions[i].amount %></td>
+                  <td><%= currencyList.filter((c) => c.code == transactions[i].currency)[0].literal %></td>
+                  <td class="date-cell"><%= formatDate(transactions[i].date) %></td>
+                  <td><%= transactions[i].balance %></td>
+                  <td><%= transactions[i].description %></td>
+                </tr>
+              <% } %>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="reportModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Створити новий звіт</h4>
+      </div>
+      <div class="modal-body">
+    		<label>Назва</label>
+    		<div class="form-group">
+    			<input type="text" id="title" class="form-control" value="" placeholder="Назва звіту...">
+    		</div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Закрити</button>
+        <button type="button" class="btn btn-primary" id="create-report-btn">Створити</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Видалити виділині транзакції</h4>
+      </div>
+      <div class="modal-body">
+    		<label>Ви дійсно бажаєте видалити виділині транзакціїї?</label>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Ні</button>
+        <button type="button" class="btn btn-primary" id="delete-transaction-btn">Так</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="transModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Створити нову транзакцію</h4>
+      </div>
+      <div class="modal-body">
+    		<label for="amount">Сума</label>
+    		<div class="form-group">
+    			<input type="number" id="amount" class="form-control" value="100">
+    		</div>
+        <label for="currency">Валюта:</label>
+    		<div class="form-group">
+          <select id="currency" class="form-control" data-userCurrency="<%=userInfo.currency%>">
+            <% for (var currency of currencyList) { %>
+              <option <%=userInfo.currency == currency.code ? 'selected' : ''%> data-convert="<%=currency.convert%>" value="<%=currency.code%>"><%=currency.name%> (<%=currency.literal%>)</option>
+            <% } %>
+          </select>
+        </div>
+        <label for="convert">Конвертація:</label>
+    		<div class="form-group">
+    			<input type="number" id="convert" class="form-control" value="1">
+    		</div>
+    		<label for="datetime">Дата</label>
+    		<div class="form-group">
+    			<input type="datetime-local" id="datetime" class="form-control" value="<%=getLocalDateTime().replace(' ', 'T')%>">
+    		</div>
+    		<label for="description">Опис</label>
+    		<div class="form-group">
+    			<input type="text" id="description" class="form-control" value="" placeholder="Опис транзакції...">
+    		</div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Закрити</button>
+        <button type="button" class="btn btn-primary" id="create-transaction-btn">Створити</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<% include ../partials/footer %>

@@ -1,0 +1,329 @@
+/* COLOR VARS CSS3 FEATURE */
+:root {
+    --booker-main-color: #f79420;
+    --booker-border-color: #fa7921;
+    --booker-text-color: #404040;
+    --booker-extra-color: #aaaaaa;
+}
+
+
+/* BOOTSTRAP OVERRIDE */
+
+.h1,.h2,.h3,.h4,.h5,.h6,
+h1,h2,h3,h4,h5,h6,body {
+    color: var(--booker-text-color);
+}
+
+.h1 .small,.h1 small,.h2 .small,.h2 small,.h3 .small,.h3 small,.h4 .small,.h4 small,
+.h5 .small,.h5 small,.h6 .small,.h6 small,h1 .small,h1 small,h2 .small,h2 small,
+h3 .small,h3 small,h4 .small,h4 small,h5 .small,h5 small,h6 .small,h6 small {
+    color: var(--booker-extra-color);
+}
+a.list-group-item {
+    color: var(--booker-text-color);
+}
+
+.form-control:focus {
+    border-color: var(--booker-main-color);
+    box-shadow: 0;
+}
+
+.btn-primary {
+    background-color: var(--booker-main-color);
+    border-color: var(--booker-border-color);
+}
+
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:active,
+.btn-primary:active:focus {
+    border-color: var(--booker-border-color);
+    background-color: var(--booker-border-color);
+}
+
+.btn-default {
+    color: var(--booker-border-color);
+    border-color: var(--booker-border-color);
+}
+
+.btn-default:hover,
+.btn-default:focus,
+.btn-default:active,
+.btn-default:active:focus {
+    color: white;
+    background-color: var(--booker-border-color);
+    border-color: var(--booker-border-color);
+}
+
+.btn-disabled,
+.btn-disabled:hover,
+.btn-disabled:focus {
+    background-color: #fff;
+    border-color: var(--booker-extra-color);
+    color: var(--booker-extra-color);
+}
+
+.no-margin {
+    margin: 0;
+}
+
+.table .date-cell {
+    min-width: 150px;
+}
+
+.no-transactions {
+    text-align: center;
+    margin-top: 0;
+}
+
+
+/* NAVBAR */
+
+.my-navbar {
+    padding-top: 15px;
+}
+
+.my-navbar .nav-tabs {
+    border-color: var(--booker-border-color);
+}
+
+.my-navbar .nav-tabs .tab-right {
+    float: right;
+}
+
+.my-navbar .nav-tabs .tab-right a {
+    margin-right: 0;
+    margin-left: 2px;
+}
+
+.my-navbar .nav-tabs li.active a {
+    border-color: var(--booker-border-color);
+    color: white;
+    background-color: var(--booker-main-color);
+}
+
+.my-navbar .nav-tabs li a {
+    color: var(--booker-border-color);
+}
+
+.my-navbar .nav-tabs li a:hover,
+.my-navbar .nav-tabs li.active a:hover {
+    border-color: var(--booker-border-color);
+    color: white;
+    background-color: var(--booker-border-color);
+    cursor: pointer;
+}
+
+
+/* FOOTER */
+
+.my-footer {
+    text-align: center;
+    border-top: 1px solid var(--booker-border-color);
+    color: var(--booker-text-color);
+    padding: 5px;
+}
+
+
+/* INDEX */
+
+.index-splash {
+    height: 430px;
+    background-image: url("/images/Splash.png");
+    padding-top: 60px;
+    padding-left: 60px;
+}
+
+.index-splash-text h1 {
+    color: var(--booker-main-color);
+}
+
+.index-splash-text p {
+    color: var(--booker-text-color);
+    line-height: 30px;
+}
+
+.index-feature {
+    height: 260px;
+    text-align: center;
+}
+
+.index-feature h2 {
+    color: var(--booker-main-color);
+}
+
+.index-feature .glyphicon {
+    color: var(--booker-border-color);
+    font-size: 60px;
+}
+
+.index-feature p {
+    padding: 0 45px;
+}
+
+
+/* 404 */
+
+.not-found {
+    text-align: center;
+    padding: 120px;
+}
+
+.not-found h2 {
+    color: var(--booker-main-color);
+}
+
+.not-found .glyphicon {
+    color: var(--booker-border-color);
+    font-size: 200px;
+}
+
+.not-found p {
+    color: var(--booker-text-color);
+}
+
+
+/* LOGIN / REGISTER / RESTORE */
+
+.form-auth {
+    padding-top: 90px;
+    padding-bottom: 120px;
+}
+
+.form-auth h3 {
+    margin-top: 0;
+    color: var(--booker-border-color);
+    text-align: center;
+}
+
+.form-auth label {
+    color: var(--booker-main-color);
+}
+
+.form-auth .btn {
+    width: 100%;
+}
+
+.form-auth .login-restore-link {
+    display: inline-block;
+    margin-top: 5px;
+    float: right;
+    text-decoration: underline;
+    font-size: 12px;
+    color: var(--booker-main-color);
+}
+
+.form-auth .login-restore-link:hover {
+    color: var(--booker-border-color);
+}
+
+
+/* HISTORY */
+
+.history {
+    margin-top: 10px;
+}
+
+.history h4 {
+    height: 24px;
+    margin: 5px 0;
+    float: left;
+}
+
+.history .btn {
+    float: right;
+    margin-right: 0;
+    margin-left: 10px;
+}
+
+.history-selected.none {
+    display: none;
+}
+
+
+/* REPORTS */
+
+.reports .btn {
+    float: right;
+    margin-right: 0;
+    margin-left: 10px;
+}
+
+.reports .sidebar {
+    height: 600px;
+    overflow-y: auto;
+    margin: 15px 0;
+}
+
+.reports .sidebar .list-group {
+    margin: 0;
+}
+
+.reports .sidebar .list-group-item.active {
+    background-color: var(--booker-main-color);
+    border-color: var(--booker-border-color);
+}
+
+.reports .sidebar .list-group-item {
+    border-color: var(--booker-border-color);
+    cursor: pointer;
+}
+
+.reports .paperbar {
+    overflow: auto;
+    height: 600px;
+}
+
+.reports .paper {
+    cursor: pointer;
+    margin: 15px auto 30px auto;
+    width: 210mm;
+    min-height: 297mm;
+    padding: 10mm;
+    box-shadow: 0px 0px 20px 0 rgba(0, 0, 0, 0.2), 0px 4px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.reports .paper.paper-zoom {
+    zoom: 0.5;
+    /*transform: scale(0.5) translateY(-50%);*/
+    -moz-transform: scale(0.5) translateY(-50%);
+}
+
+.reports .paper h2 {
+    font-size: 18pt;
+    margin-top: 0;
+    color: #333;
+}
+
+.reports .paper h3 {
+    font-size: 14pt;
+    margin: 10px 0;
+    color: #333;
+}
+
+.reports .paper h4 {
+    font-size: 12pt;
+    margin: 10px 0;
+    color: #333;
+}
+
+.reports .paper .table>thead>tr>th,
+.reports .paper .table>tbody>tr>td {
+    border-color: #000;
+    color: #333;
+}
+
+/* API */
+
+.api-block {
+    margin-bottom: 50px;
+}
+
+.api-block h2 {
+    margin-bottom: 30px;
+    border-bottom: 1px solid rgba(0,0,0,0.3);
+}
+
+.api-method {
+    border-bottom: 1px solid rgba(0,0,0,0.10);
+}
