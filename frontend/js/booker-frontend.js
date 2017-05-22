@@ -734,7 +734,7 @@ var booker = booker || {};
 				style: ['sub-header'],
 				columns: [{
 					text: [{
-						text: 'Компанія:\n',
+						text: 'Назва компанії:\n',
 						style: 'bold'
 					}, report.owner]
 				}, {
